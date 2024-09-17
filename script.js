@@ -1,37 +1,74 @@
-let x = 1
-let build = createBoxes()
-let size = askForSize()
-let button = document.querySelector('.reset')
 
+let answer; 
+let container = document.querySelector('#container');
+const button = document.querySelector('button');
+let x;
 
 function createBoxes() {
-    let container = document.querySelector('.container')
+  
     for (let i = 0; i < answer; i++) {
-        let box = document.createElement('div')
-        box.classList.add('box')
-        box.id = 'id' + i
-        container.appendChild(box)
-
+        let box = document.createElement('div');
+        container.appendChild(box);
+        box.classList.add('box');
+        box.id = 'id' + i;
+       
     }
 }
-
-function askForSize() {
-   let answer = prompt('Enter the size of the grid')
-   if (answer == null || answer == '' || isNaN(answer)) {
-       alert('Please enter a number')
-       askForSize()
-   }
+function updateBoxes() {
+    let container = document.querySelector('#container');
+    let boxes = document.querySelectorAll('.box');
+    let width = container.offsetWidth;
+    let boxSize = ((width - 15) / (Math.sqrt(answer)) - 2);
+    let y = boxSize;
+    console.log(width);
+    console.log(y);
+    container.style.display = 'flex';
+    container.style.flexWrap = 'wrap';
+    boxes.forEach(box => {
+        box.style.width = `${y-2}px`;
+        box.style.height = `${y-2}px`;
+        box.addEventListener('mouseover', () => {
+            box.style.backgroundColor = randomColor();
+        });
+    });
+    console.log(width); // First log of width
+    return width; // Return width after everything is done
 }
 
+function randomColor() {
+ let randomColor = Math.floor(Math.random()*16777215).toString(16);
+return '#' + randomColor;}
+
+function askForSize() {
+    answer = prompt('Enter the size of the grid');
+    if (answer == null || answer == '' || isNaN(answer)) {
+        alert('Please enter a number');
+        return askForSize(); }
+    else if (answer < 1 || answer > 100) {
+        alert('Please enter a number between 1 and 100');
+        return askForSize();
+    }else {x = answer;
+        answer = answer * answer}
+    return answer;
+    
+}
+
+function removeBoxes() {
+    let boxes = document.querySelectorAll('.box');
+    boxes.forEach(box => {
+        box.remove();
+    });
+
+
+}
 
 button.addEventListener('click', () => {
-    container.removeChild(box);
+    removeBoxes(); 
     askForSize();
     createBoxes();
-    })
-    
-
+updateBoxes();});
 
 
 askForSize();
 createBoxes();
+updateBoxes();
