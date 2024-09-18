@@ -17,13 +17,12 @@ function createBoxes() {
 function updateBoxes() {
     let container = document.querySelector('#container');
     let boxes = document.querySelectorAll('.box');
-    let width = container.offsetWidth;
-    let boxSize = ((width - 15) / (Math.sqrt(answer)) - 2);
+    let width = container.clientWidth;
+    let boxSize = ((width ) / (Math.sqrt(answer)) );
     let y = boxSize;
     console.log(width);
     console.log(y);
-    container.style.display = 'flex';
-    container.style.flexWrap = 'wrap';
+
     boxes.forEach(box => {
         box.style.width = `${y-2}px`;
         box.style.height = `${y-2}px`;
